@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@expo/webpack-config": "^19.0.0",
+    "@tensorflow-models/mobilenet": "^2.1.1",
     "@tensorflow/tfjs": "^4.14.0",
     "@tensorflow/tfjs-react-native": "^1.0.0",
     "async-storage": "^0.1.0",

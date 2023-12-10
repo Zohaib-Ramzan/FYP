@@ -7,9 +7,9 @@ import { Image } from 'react-native';
 import * as jpeg from 'jpeg-js';
 import { GLView } from 'expo-gl';
 import { Camera } from 'expo-camera';
+import * as mobilenet from '@tensorflow-models/mobilenet'; // Import MobileNet
 
 let model; // Declare model variable outside of the component
-let labels; // Declare labels variable outside of the component
 
 export default function Modeling() {
   const [isModelLoaded, setIsModelLoaded] = useState(false);
@@ -19,45 +19,13 @@ export default function Modeling() {
     console.log('Starting model loading...');
     await tf.ready();
     console.log('TensorFlow.js is ready...');
-    const modelJson = require('../assets/tfjs_model/model.json');
-    const modelWeights = [
-      require('../assets/tfjs_model/group1-shard1of23.bin'),
-      require('../assets/tfjs_model/group1-shard2of23.bin'),
-      require('../assets/tfjs_model/group1-shard3of23.bin'),
-      require('../assets/tfjs_model/group1-shard4of23.bin'),
-      require('../assets/tfjs_model/group1-shard5of23.bin'),
-      require('../assets/tfjs_model/group1-shard6of23.bin'),
-      require('../assets/tfjs_model/group1-shard7of23.bin'),
-      require('../assets/tfjs_model/group1-shard8of23.bin'),
-      require('../assets/tfjs_model/group1-shard9of23.bin'),
-      require('../assets/tfjs_model/group1-shard10of23.bin'),
-      require('../assets/tfjs_model/group1-shard11of23.bin'),
-      require('../assets/tfjs_model/group1-shard12of23.bin'),
-      require('../assets/tfjs_model/group1-shard13of23.bin'),
-      require('../assets/tfjs_model/group1-shard14of23.bin'),
-      require('../assets/tfjs_model/group1-shard15of23.bin'),
-      require('../assets/tfjs_model/group1-shard16of23.bin'),
-      require('../assets/tfjs_model/group1-shard17of23.bin'),
-      require('../assets/tfjs_model/group1-shard18of23.bin'),
-      require('../assets/tfjs_model/group1-shard19of23.bin'),
-      require('../assets/tfjs_model/group1-shard20of23.bin'),
-      require('../assets/tfjs_model/group1-shard21of23.bin'),
-      require('../assets/tfjs_model/group1-shard22of23.bin'),
-      require('../assets/tfjs_model/group1-shard23of23.bin'),
-    ];
-    console.log('got the paths');
 
     console.log('Loading model...');
-    model = await tf.loadLayersModel(bundleResourceIO(modelJson, modelWeights));
+    model = await mobilenet.load(); // Load MobileNet model
     setIsModelLoaded(true);
 
-    // Load labels
-    console.log('Loading labels...');
-    labels = require('../assets/tfjs_model/labels.json');
-    console.log('Labels are loaded...');
     console.log('Model is loaded...');
   };
-
 
   const handlePress = async () => {
     if (model) {
@@ -76,20 +44,15 @@ export default function Modeling() {
       const imageTensor = tf.tensor3d(rgbData, [imageAssetPath.height, imageAssetPath.width, 3]);
 
       // Preprocess image
-      const resizedImageTensor = tf.image.resizeBilinear(imageTensor, [299, 299]);
-      const offset = tf.scalar(127.5);
-      const normalizedImageTensor = resizedImageTensor.sub(offset).div(offset);
-      const batchedImageTensor = normalizedImageTensor.expandDims(0);
+      const resizedImageTensor = tf.image.resizeBilinear(imageTensor, [224, 224]); // Resize to 224x224 for MobileNet
+      const batchedImageTensor = resizedImageTensor.expandDims(0);
 
       // Make prediction
-      const prediction = model.predict(batchedImageTensor);
-      const top10 = prediction.topk(10);
-      const indices = await top10.indices.data();
-      const values = await top10.values.data();
+      const predictions = await model.classify(batchedImageTensor); // Use classify method
 
       // Print top 10 predictions
-      for (let i = 0; i < 10; i++) {
-        console.log(`${i + 1}: ${labels[indices[i]]} (${values[i].toFixed(2)})`);
+      for (let i = 0; i < Math.min(10, predictions.length); i++) {
+        console.log(`${i + 1}: ${predictions[i].className} (${predictions[i].probability.toFixed(2)})`);
       }
     }
   };
