@@ -4,6 +4,7 @@ import { GLView } from 'expo-gl';
 import * as tf from '@tensorflow/tfjs';
 import '@tensorflow/tfjs-react-native';
 import Modeling from './Components/Modeling';
+import ModelingSelectedLibrary from './Components/ModelingSelectedLibrary';
 import { Camera } from 'expo-camera';
 
 const App = () => {
@@ -23,7 +24,7 @@ const App = () => {
     return <Text>Loading TensorFlow.js...</Text>;
   }
 
-  return <Modeling></Modeling>;
+  return <ModelingSelectedLibrary></ModelingSelectedLibrary>;
 };
 
 export default App;
