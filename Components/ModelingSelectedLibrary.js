@@ -1,9 +1,8 @@
 import * as tf from '@tensorflow/tfjs';
 import { bundleResourceIO } from '@tensorflow/tfjs-react-native';
 import { Asset } from 'expo-asset';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { Image } from 'react-native';
 import * as jpeg from 'jpeg-js';
 import { GLView } from 'expo-gl';
 import { Camera } from 'expo-camera';
@@ -16,6 +15,8 @@ export default function ModelingSelectedLibrary() {
     const [isModelLoaded, setIsModelLoaded] = useState(false);
     const [cameraRef, setCameraRef] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
+    const [predictions, setPredictions] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const loadModel = async () => {
         console.log('Starting model loading...');
@@ -55,6 +56,8 @@ export default function ModelingSelectedLibrary() {
 
     const handlePress = async () => {
         if (model && selectedImage) {
+            setIsLoading(true); // Start loading
+
             // Load image
             const response = await fetch(selectedImage.uri, {}, { isBinary: true });
             const imageData = await response.arrayBuffer();
@@ -75,10 +78,13 @@ export default function ModelingSelectedLibrary() {
             // Make prediction
             const predictions = await model.classify(batchedImageTensor); // Use classify method
 
-            // Print top 10 predictions
-            for (let i = 0; i < Math.min(10, predictions.length); i++) {
-                console.log(`${i + 1}: ${predictions[i].className} (${predictions[i].probability.toFixed(2)})`);
-            }
+            // Print predictions in console
+            console.log(predictions);
+
+            // Set predictions state
+            setPredictions(predictions);
+
+            setIsLoading(false); // End loading
         }
     };
 
@@ -95,9 +101,16 @@ export default function ModelingSelectedLibrary() {
                 <Text>Pick an image</Text>
             </TouchableOpacity>
             {selectedImage && <Image source={{ uri: selectedImage.uri }} style={{ width: 200, height: 200 }} />}
-            <TouchableOpacity style={styles.button} onPress={handlePress}>
-                <Text>Predict</Text>
-            </TouchableOpacity>
+            {isLoading ? (
+                <ActivityIndicator size="large" color="#0000ff" />
+            ) : (
+                <TouchableOpacity style={styles.button} onPress={handlePress}>
+                    <Text>Predict</Text>
+                </TouchableOpacity>
+            )}
+            {predictions.map((prediction, i) => (
+                <Text key={i}>{`${i + 1}: ${prediction.className} (${prediction.probability.toFixed(2)})`}</Text>
+            ))}
         </View>
     );
 }
