@@ -1,30 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Button, Image } from 'react-native';
-import { GLView } from 'expo-gl';
-import * as tf from '@tensorflow/tfjs';
+import React from 'react';
+import { StatusBar } from 'react-native';
 import '@tensorflow/tfjs-react-native';
-import Modeling from './Components/Modeling';
-import ModelingSelectedLibrary from './Components/ModelingSelectedLibrary';
-import { Camera } from 'expo-camera';
+import Predictions from './Components/Predictions';
 
 const App = () => {
-  const [isTfReady, setTfReady] = useState(false);
-
-  useEffect(() => {
-    const prepareTf = async () => {
-      await tf.ready();
-      setTfReady(true);
-    };
-
-    prepareTf();
-  }, []);
-
-  // Render your component
-  if (!isTfReady) {
-    return <Text>Loading TensorFlow.js...</Text>;
-  }
-
-  return <ModelingSelectedLibrary></ModelingSelectedLibrary>;
+  return (
+    <>
+      <StatusBar backgroundColor="#6200EE" barStyle="dark-content" />
+      <Predictions />
+    </>
+  );
 };
 
 export default App;

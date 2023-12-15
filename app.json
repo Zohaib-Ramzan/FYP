@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "FoodReacognition",
-    "slug": "FoodReacognition",
+    "name": "ImageClass",
+    "slug": "imageClass",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -29,10 +29,25 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "686b3718-4950-40c2-a214-69616fe841be"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/686b3718-4950-40c2-a214-69616fe841be"
     }
   }
 }
