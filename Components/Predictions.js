@@ -71,7 +71,7 @@ export default function Predictions() {
     return (
         <View style={styles.container}>
             <ScrollView contentContainerStyle={[styles.scrollViewContainer, { flex: selectedImage ? 0 : 1 }]} showsVerticalScrollIndicator={false}>
-                <Text style={styles.modelText}>Model Loaded: {isModelLoaded ? 'Yes' : 'No , Please wait..'}</Text>
+                {!isModelLoaded && <Text style={styles.modelText}>Loading model, Please wait..</Text>}
                 {!isModelLoaded && <ActivityIndicator size="large" color="#0000ff" animating={!isModelLoaded} />}
                 <ImagePickerAndResizer selectedImage={selectedImage} setSelectedImage={setSelectedImage} />
                 {isLoadingPredictions ? (
@@ -96,13 +96,14 @@ export default function Predictions() {
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 20,
         flex: 1,
         backgroundColor: '#F9F7F7',
         alignItems: 'center',
         justifyContent: 'center',
+        width: '100%',
     },
     scrollViewContainer: {
+        minWidth: '100%',
         alignItems: 'center',
         justifyContent: 'center',
     },
