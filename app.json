@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "TensorNative",
-    "slug": "TensorNative",
+    "slug": "tensornative",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -40,14 +40,15 @@
     },
     "extra": {
       "eas": {
-        "projectId": "686b3718-4950-40c2-a214-69616fe841be"
+        "projectId": "bdefbfd6-d1e7-4d0a-afb9-ceccd1796c3f"
       }
     },
     "runtimeVersion": {
       "policy": "appVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/686b3718-4950-40c2-a214-69616fe841be"
-    }
+      "url": "https://u.expo.dev/bdefbfd6-d1e7-4d0a-afb9-ceccd1796c3f"
+    },
+    "owner": "alexis-papazoglou"
   }
 }

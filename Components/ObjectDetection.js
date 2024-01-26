@@ -39,7 +39,7 @@ export default function ObjectDetection() {
     };
 
     const drawRectangle = async (predictions, nextImageTensor) => {
-        const highScorePredictions = predictions.filter(prediction => prediction.score > 0.5);
+        const highScorePredictions = predictions.filter(prediction => prediction.score > 0.3);
         if (context.current && canvas.current) {
             const scaleWidth = width / nextImageTensor.shape[1];
             const scaleHeight = height / nextImageTensor.shape[0];
