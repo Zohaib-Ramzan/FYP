@@ -1,5 +1,6 @@
 import React from 'react';
 import { StatusBar, StyleSheet } from 'react-native';
+import { Platform, Dimensions } from 'react-native';
 import '@tensorflow/tfjs-react-native';
 import Predictions from './Components/Predictions';
 import ObjectDetection from './Components/ObjectDetection';
@@ -9,7 +10,14 @@ import { Ionicons } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
 
+const { height: screenHeight } = Dimensions.get('window');
+console.log(screenHeight);
+
+const isIphoneXOrNewer =
+  Platform.OS === 'ios' && (screenHeight > 812);
+
 const App = () => {
+
   return (
     <NavigationContainer>
       <StatusBar backgroundColor="#6200EE" barStyle="dark-content" />
@@ -51,7 +59,7 @@ styles = StyleSheet.create({
   tabBar: {
     backgroundColor: 'white',
     paddingVertical: 1,
-    height: 50,
+    height: isIphoneXOrNewer ? 80 : 50, 
     borderTopColor: '#3F72AF',
   },
 });

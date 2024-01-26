@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ImageClass",
-    "slug": "imageClass",
+    "name": "TensorNative",
+    "slug": "TensorNative",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
