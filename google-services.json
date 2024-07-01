@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "348466366669",
+    "project_id": "tensornative",
+    "storage_bucket": "tensornative.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:348466366669:android:6c62d41dce4ae956144184",
+        "android_client_info": {
+          "package_name": "com.btd.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKfOHvHXIqta4aSBGjpSfe4aEGq2TL8us"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

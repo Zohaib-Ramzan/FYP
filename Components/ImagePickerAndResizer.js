@@ -9,7 +9,7 @@ import * as ImageManipulator from 'expo-image-manipulator';
 
 export default function ImagePickerAndResizer({ selectedImage, setSelectedImage }) {
   const [originalImageSize, setOriginalImageSize] = useState(null);
-  const [imageSize, setImageSize] = useState();
+  const [imageSize, setImageSize] = useState(null);
   const [resizeTimeout, setResizeTimeout] = useState(null);
   const [isLoadingImageAction, setIsLoadingImageAction] = useState(false);
 
@@ -90,7 +90,7 @@ export default function ImagePickerAndResizer({ selectedImage, setSelectedImage 
 
     let result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
+      allowsEditing: false,
       aspect: [4, 3],
       quality: 1,
     });
@@ -106,7 +106,7 @@ export default function ImagePickerAndResizer({ selectedImage, setSelectedImage 
 
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
+      allowsEditing: false,
       aspect: [4, 3],
       quality: 1,
     });
@@ -131,8 +131,8 @@ export default function ImagePickerAndResizer({ selectedImage, setSelectedImage 
       {isLoadingImageAction && <ActivityIndicator size="large" color="#0000ff" />}
       {selectedImage && <Slider
         style={styles.slider}
-        minimumValue={100}
-        maximumValue={2400}
+        minimumValue={150}
+        maximumValue={224}
         step={1}
         value={imageSize}
         onValueChange={handleSliderChange}
