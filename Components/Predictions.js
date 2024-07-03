@@ -7,6 +7,7 @@ import * as WebBrowser from 'expo-web-browser';
 import ImagePickerAndResizer from './ImagePickerAndResizer';
 import { GLView } from 'expo-gl';
 import { Camera } from 'expo-camera';
+import CustomText from '../src/components/CustomText';
 
 let model; // Declare model variable outside of the component
 let labels; // Declare labels variable outside of the component
@@ -111,7 +112,7 @@ export default function Predictions() {
         <ScrollView contentContainerStyle={[styles.scrollViewContainer, { flex: selectedImage ? 0 : 1 }]} showsVerticalScrollIndicator={false}>
             {!isModelLoaded ? (
                 <>
-                    <Text style={styles.modelText}>Loading model, Please wait..</Text>
+                    <CustomText style={styles.modelText}>Loading model, Please wait..</CustomText>
                     <ActivityIndicator size="large" color="#0000ff" animating={!isModelLoaded} />
                 </>
             ) : (
@@ -126,10 +127,10 @@ export default function Predictions() {
                     )}
                     {predictions.length > 0 && (
                         <View style={styles.predictionsContainer}>
-                            <Text style={styles.modelText}>Predictions:</Text>
+                            <CustomText style={styles.modelText}>Predictions:</CustomText>
                             {predictions.map((prediction, i) => (
                         <TouchableOpacity key={i} onPress={() => WebBrowser.openBrowserAsync(`https://www.google.com/search?tbm=isch&q=${encodeURIComponent(prediction.label)}`)}>
-                            <Text style={styles.predictions}>{`${i + 1}: ${prediction.label} (${prediction.probability.toFixed(2)})`}</Text>
+                            <CustomText style={styles.predictions}>{`${i + 1}: ${prediction.label} (${prediction.probability.toFixed(2)})`}</CustomText>
                         </TouchableOpacity>
                     ))}
                         </View>

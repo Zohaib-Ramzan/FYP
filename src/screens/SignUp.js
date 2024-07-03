@@ -19,6 +19,7 @@ import TextInputComp from "../components/TextInputComp";
 import ButtonComp from "../components/ButtonComp";
 import { auth } from "../../config";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import CustomText from "../components/CustomText";
 
 const SignUp = () => {
   const navigation = useNavigation();
@@ -26,6 +27,7 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isSignup, setIsSignup] = useState(false);
 
   const SignUpPress = () => {
     if (
@@ -33,7 +35,9 @@ const SignUp = () => {
       email.includes("@") &&
       password.length > 5
     ) {
+      setIsSignup(true)
       createUser();
+      setIsSignup(false)
       navigation.navigate("Home");
     } else {
       Alert.alert("Kindly check your credentials!");
@@ -61,25 +65,29 @@ const SignUp = () => {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#6200EE" barStyle="dark-content" />
       <HeaderComp onPress={() => navigation.goBack()} />
-      <Text style={styles.title}>Create new account</Text>
+      <CustomText style={styles.title}>Brain Tumour Predictor</CustomText>
       <View style={styles.body_container}>
+        <CustomText style={styles.txtStyle}>{'Username'}</CustomText>
         <TextInputComp
-          placeholder="Your Name"
+          placeholder="Enter Your Name"
           onChangeText={setName}
           value={name}
         />
+        <CustomText style={styles.txtStyle}>{'Email'}</CustomText>
         <TextInputComp
-          placeholder="Email"
+          placeholder="Enter Email"
           onChangeText={setEmail}
           value={email}
         />
+        <CustomText style={styles.txtStyle}>{'Password'}</CustomText>
         <TextInputComp
-          placeholder="Password"
+          placeholder="Enter Password"
           onChangeText={setPassword}
           value={password}
         />
+        <CustomText style={styles.txtStyle}>{'Confirm Password'}</CustomText>
         <TextInputComp
-          placeholder="Confirm Password"
+          placeholder="Enter Confirm Password"
           onChangeText={setConfirmPassword}
           value={confirmPassword}
         />
@@ -87,6 +95,7 @@ const SignUp = () => {
           text={"SignUp"}
           bgStyle={styles.login_btn}
           onPress={SignUpPress}
+          isLoading={isSignup}
         />
       </View>
     </SafeAreaView>
@@ -98,20 +107,24 @@ export default SignUp;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#fff",
   },
   title: {
     alignSelf: "center",
-    fontSize: responsiveFontSize(2),
-    marginTop: responsiveHeight(2),
+    fontSize: responsiveFontSize(3.3),
+    marginTop: responsiveHeight(1),
   },
   body_container: {
     flex: 1,
     justifyContent: "center",
     paddingHorizontal: responsiveWidth(5),
-    alignItems: "center",
+    alignSelf:'center',
   },
   login_btn: {
+    alignSelf:'center',
     marginVertical: responsiveHeight(2),
   },
+  txtStyle: {
+    marginLeft: responsiveWidth(2)
+  }
 });

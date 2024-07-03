@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         width: responsiveWidth(80),
         paddingVertical: responsiveHeight(1),
         paddingHorizontal: responsiveWidth(3),
-        backgroundColor: '#F8F8F8',
+        backgroundColor: '#f2f2f2',
         borderRadius: responsiveWidth(5)
       },
 })

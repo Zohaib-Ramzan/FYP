@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo-google-fonts/roboto": "^0.2.3",
     "@expo/vector-icons": "^13.0.0",
     "@expo/webpack-config": "^19.0.0",
     "@react-native-async-storage/async-storage": "^1.23.1",
@@ -25,10 +26,12 @@
     "@tensorflow/tfjs-react-native": "^1.0.0",
     "async-storage": "^0.1.0",
     "expo": "~49.0.15",
+    "expo-app-loading": "^2.1.1",
     "expo-camera": "13.2.0",
     "expo-dev-client": "~2.4.13",
     "expo-file-system": "^16.0.9",
     "expo-firebase-core": "^6.0.0",
+    "expo-font": "~11.4.0",
     "expo-gl": "^13.2.0",
     "expo-image-manipulator": "^11.8.0",
     "expo-image-picker": "^14.7.1",

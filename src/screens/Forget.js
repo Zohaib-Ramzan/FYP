@@ -2,23 +2,28 @@ import { Alert, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import HeaderComp from '../components/HeaderComp'
 import { useNavigation } from '@react-navigation/native'
-import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions'
+import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions'
 import TextInputComp from '../components/TextInputComp'
 import ButtonComp from '../components/ButtonComp'
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from '../../config'
+import CustomText from '../components/CustomText'
 
 const Forget = () => {
     const navigation = useNavigation();
     const [email, setEmail] = useState('');
+    const [isMailSend, setIsMailSend] = useState(false);
 
     const sendMail = async() => {
+      setIsMailSend(true)
       try {
         const forgetUser = await sendPasswordResetEmail(auth, email);
+        setIsMailSend(false)
         Alert.alert("Password reset email sent! Please check your inbox.")
         
       } catch (error) {
         console.log(error);
+        setIsMailSend(false)
         Alert.alert(error.message);
       }
 
@@ -27,7 +32,7 @@ const Forget = () => {
   return (
     <View style={styles.container}>
         <HeaderComp onPress={()=> navigation.goBack()}/>
-        <Text style={styles.title}>Forget Password</Text>
+        <CustomText style={styles.title}>Forget Password</CustomText>
         <View style={styles.body_container}>
         <TextInputComp placeholder='E-mail' onChangeText={setEmail} value={email}/>
         <ButtonComp text={'Send'} onPress={sendMail} />
@@ -50,6 +55,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
       },
       title: {
-        textAlign: 'center'
+        textAlign: 'center',
+        fontSize: responsiveFontSize(3.3),
       }
 })
