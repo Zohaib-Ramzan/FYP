@@ -10,6 +10,7 @@ import HeaderComp from '../components/HeaderComp';
 import SettingScreen from './Settings';
 import Resources from './Resources';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
+import History from './History';
 
 const Tab = createBottomTabNavigator();
 
@@ -24,7 +25,6 @@ const App = () => {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="#6200EE" barStyle="dark-content" />
-      <HeaderComp onPress={() => navigation.goBack()} />
       <Tab.Navigator
         screenOptions={{
           tabBarActiveTintColor: '#ffffff',
@@ -37,8 +37,8 @@ const App = () => {
         }}
       >
         <Tab.Screen
-          name="Image Prediction"
-          component={Predictions}
+          name="History"
+          component={History}
           options={{
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="home" color={color} size={size} />

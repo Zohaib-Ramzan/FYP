@@ -6,6 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import Home from "../screens/Home";
 import Forget from "../screens/Forget";
 import { useFonts,Roboto_900Black, Roboto_400Regular } from "@expo-google-fonts/roboto";
+import Predictions from "../../Components/Predictions";
 
 
 const Stack = createNativeStackNavigator();
@@ -32,6 +33,7 @@ const MainRouter = () => {
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="Forget" component={Forget} />
         <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Prediction" component={Predictions}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

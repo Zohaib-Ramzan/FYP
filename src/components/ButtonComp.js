@@ -9,10 +9,10 @@ import React from "react";
 import { responsiveHeight } from "react-native-responsive-dimensions";
 import CustomText from "./CustomText";
 
-const ButtonComp = ({ onPress, text, bgStyle, isLoading }) => {
+const ButtonComp = ({ onPress, text, bgStyle, isLoading, btnStyle }) => {
   return (
     <View style={[styles.container, bgStyle]}>
-      <Pressable style={styles.btnContainer} onPress={onPress}>
+      <Pressable style={[styles.btnContainer,btnStyle]} onPress={onPress}>
         {isLoading ? (
           <ActivityIndicator size={"small"} color={"#FFF"} />
         ) : (

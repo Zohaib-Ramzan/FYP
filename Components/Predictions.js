@@ -1,6 +1,6 @@
 import * as tf from '@tensorflow/tfjs';
 import { bundleResourceIO } from '@tensorflow/tfjs-react-native';
-import { StyleSheet, Text, TouchableOpacity, ActivityIndicator, ScrollView, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, ActivityIndicator, ScrollView, View, SafeAreaView } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import * as jpeg from 'jpeg-js';
 import * as WebBrowser from 'expo-web-browser';
@@ -8,11 +8,15 @@ import ImagePickerAndResizer from './ImagePickerAndResizer';
 import { GLView } from 'expo-gl';
 import { Camera } from 'expo-camera';
 import CustomText from '../src/components/CustomText';
+import HeaderComp from '../src/components/HeaderComp';
+import { useNavigation } from '@react-navigation/native';
+import ButtonComp from '../src/components/ButtonComp';
 
 let model; // Declare model variable outside of the component
 let labels; // Declare labels variable outside of the component
 
 export default function Predictions() {
+    const navigation = useNavigation();
  const [isModelLoaded, setIsModelLoaded] = useState(false);
  const [selectedImage, setSelectedImage] = useState(null);
  const [predictions, setPredictions] = useState([]);
@@ -108,7 +112,9 @@ export default function Predictions() {
 };
 
  return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+    <HeaderComp onPress={()=> navigation.goBack()} />
+    <View style={styles.body_container}>
         <ScrollView contentContainerStyle={[styles.scrollViewContainer, { flex: selectedImage ? 0 : 1 }]} showsVerticalScrollIndicator={false}>
             {!isModelLoaded ? (
                 <>
@@ -121,9 +127,10 @@ export default function Predictions() {
                     {isLoadingPredictions ? (
                         <ActivityIndicator size="large" color="#0000ff" />
                     ) : (
-                        <TouchableOpacity style={styles.button} onPress={handlePress}>
-                            <Text style={styles.btnText}>Predict</Text>
-                        </TouchableOpacity>
+                        // <TouchableOpacity style={styles.button} onPress={handlePress}>
+                        //     <CustomText style={styles.btnText}>Predict</CustomText>
+                        // </TouchableOpacity>
+                        <ButtonComp btnStyle={styles.btnText} text={'Predict'} onPress={handlePress}></ButtonComp> // its working 
                     )}
                     {predictions.length > 0 && (
                         <View style={styles.predictionsContainer}>
@@ -139,13 +146,17 @@ export default function Predictions() {
             )}
         </ScrollView>
     </View>
+    </SafeAreaView>
 );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F9F7F7',
+        backgroundColor: "#FFF",
+    },
+    body_container: {
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%',
@@ -184,7 +195,6 @@ const styles = StyleSheet.create({
     btnText: {
         textAlign: 'center',
         fontSize: 18,
-        color: '#F9F7F7',
         fontWeight: '600',
     },
     predictionsContainer: {

@@ -3,6 +3,8 @@ import Slider from '@react-native-community/slider';
 import { StyleSheet, Text, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
+import ButtonComp from '../src/components/ButtonComp';
+import { responsiveWidth } from 'react-native-responsive-dimensions';
 
 //This component is used to select an image from the device's library or camera
 //and resize it to a square of a specified size.
@@ -120,12 +122,14 @@ export default function ImagePickerAndResizer({ selectedImage, setSelectedImage 
     <>
       {!isLoadingImageAction && (
         <>
-          <TouchableOpacity style={styles.button} onPress={pickImage}>
+          {/* <TouchableOpacity style={styles.button} onPress={pickImage}>
             <Text style={styles.btnText}>Pick from library</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={takePicture}>
+          </TouchableOpacity> */}
+          <ButtonComp text={'Pick from library'} btnStyle={styles.button} onPress={pickImage}></ButtonComp>
+          {/* <TouchableOpacity style={styles.button} onPress={takePicture}>
             <Text style={styles.btnText}>Use camera</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
+          <ButtonComp text={'Use camera'} onPress={takePicture}></ButtonComp>
         </>
       )}
       {isLoadingImageAction && <ActivityIndicator size="large" color="#0000ff" />}
@@ -135,6 +139,8 @@ export default function ImagePickerAndResizer({ selectedImage, setSelectedImage 
         maximumValue={224}
         step={1}
         value={imageSize}
+        thumbTintColor='#6200EE'
+        minimumTrackTintColor='#6200EE'
         onValueChange={handleSliderChange}
       />}
       {selectedImage && <Text style={styles.sliderText}>Image size: {imageSize}px²</Text>}
@@ -153,17 +159,18 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   button: {
-    padding: 10,
-    backgroundColor: '#3F72AF',
-    borderRadius: 5,
-    margin: 5,
-    borderColor: '#112D4E',
-    borderWidth: 1,
-    shadowColor: '#112D4E',
-    shadowOpacity: 0.5,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 0 },
-    elevation: 5,
+    width:responsiveWidth(50),
+    // padding: 10,
+    // backgroundColor: '#3F72AF',
+    // borderRadius: 5,
+    // margin: 5,
+    // borderColor: '#112D4E',
+    // borderWidth: 1,
+    // shadowColor: '#112D4E',
+    // shadowOpacity: 0.5,
+    // shadowRadius: 8,
+    // shadowOffset: { width: 0, height: 0 },
+    // elevation: 2,
   },
   btnText: {
     textAlign: 'center',
