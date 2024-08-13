@@ -17,11 +17,16 @@ import {
 } from "react-native-responsive-dimensions";
 import TextInputComp from "../components/TextInputComp";
 import ButtonComp from "../components/ButtonComp";
-import { auth } from "../../config";
+import { auth, FIRESTORE_DB } from "../../config";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import CustomText from "../components/CustomText";
 
+import { useContext } from "react";
+import { AppContext } from "../hooks/Context";
+import { doc,setDoc } from "firebase/firestore";
+
 const SignUp = () => {
+  const {setUsers} = useContext(AppContext);
   const navigation = useNavigation();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -29,16 +34,21 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isSignup, setIsSignup] = useState(false);
 
-  const SignUpPress = () => {
+  const SignUpPress = async () => {
     if (
       password === confirmPassword &&
       email.includes("@") &&
       password.length > 5
     ) {
       setIsSignup(true)
-      createUser();
-      setIsSignup(false)
-      navigation.navigate("Home");
+      try {
+        await createUser(); 
+        navigation.navigate("Home"); 
+      } catch (error) {
+        Alert.alert("Error", "Failed to create account");
+      } finally {
+        setIsSignup(false); // Stop loading after process completes
+      }
     } else {
       Alert.alert("Kindly check your credentials!");
     }
@@ -53,11 +63,18 @@ const SignUp = () => {
         password
       );
       const user = userCredential.user;
+      await setDoc(doc(FIRESTORE_DB, 'users', user.uid), {
+        name: name,
+        email: user.email,
+        createdAt: new Date(),
+      });
+      setUsers({name: name, email: email, uid:user.uid});
       // Handle successful signup
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
       // Handle error
+      throw new Error(errorMessage);
     }
   };
 
@@ -65,8 +82,9 @@ const SignUp = () => {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#6200EE" barStyle="dark-content" />
       <HeaderComp onPress={() => navigation.goBack()} />
-      <CustomText style={styles.title}>Brain Tumour Predictor</CustomText>
+      
       <View style={styles.body_container}>
+      <CustomText style={styles.title}>Brain Tumour Predictor</CustomText>
         <CustomText style={styles.txtStyle}>{'Username'}</CustomText>
         <TextInputComp
           placeholder="Enter Your Name"
@@ -83,12 +101,14 @@ const SignUp = () => {
         <TextInputComp
           placeholder="Enter Password"
           onChangeText={setPassword}
+          secureTextEntry={true}
           value={password}
         />
         <CustomText style={styles.txtStyle}>{'Confirm Password'}</CustomText>
         <TextInputComp
           placeholder="Enter Confirm Password"
           onChangeText={setConfirmPassword}
+          secureTextEntry={true}
           value={confirmPassword}
         />
         <ButtonComp
@@ -112,7 +132,7 @@ const styles = StyleSheet.create({
   title: {
     alignSelf: "center",
     fontSize: responsiveFontSize(3.3),
-    marginTop: responsiveHeight(1),
+    marginBottom: responsiveHeight(10),
   },
   body_container: {
     flex: 1,

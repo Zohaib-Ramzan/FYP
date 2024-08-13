@@ -1,7 +1,6 @@
 import React from 'react';
 import { StatusBar, StyleSheet ,Platform, Dimensions, View} from 'react-native';
 import '@tensorflow/tfjs-react-native';
-import Predictions from '../../Components/Predictions';
 import ObjectDetection  from '../../Components/ObjectDetection';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -11,6 +10,7 @@ import SettingScreen from './Settings';
 import Resources from './Resources';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
 import History from './History';
+import Predictions from './Predictions';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,7 +20,7 @@ console.log(screenHeight);
 const isIphoneXOrNewer =
   Platform.OS === 'ios' && (screenHeight > 812);
 
-const App = () => {
+const Home = () => {
     const navigation = useNavigation();
   return (
     <View style={styles.container}>
@@ -34,7 +34,9 @@ const App = () => {
           },
           tabBarStyle: styles.tabBar,
           headerShown: false,
+          
         }}
+        initialRouteName='History'
       >
         <Tab.Screen
           name="History"
@@ -82,4 +84,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default Home;

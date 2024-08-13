@@ -9,7 +9,7 @@ import { responsiveWidth } from 'react-native-responsive-dimensions';
 //This component is used to select an image from the device's library or camera
 //and resize it to a square of a specified size.
 
-export default function ImagePickerAndResizer({ selectedImage, setSelectedImage }) {
+export default function ImagePickerAndResizer({ selectedImage, setSelectedImage,isImageSelected }) {
   const [originalImageSize, setOriginalImageSize] = useState(null);
   const [imageSize, setImageSize] = useState(null);
   const [resizeTimeout, setResizeTimeout] = useState(null);
@@ -80,6 +80,7 @@ export default function ImagePickerAndResizer({ selectedImage, setSelectedImage 
       if (image.uri) {
         setOriginalImageSize({ width: image.width, height: image.height });
         setSelectedImage(image);
+        isImageSelected(true);
       } else {
         console.error('No image URI returned from ImagePicker');
       }
@@ -129,7 +130,7 @@ export default function ImagePickerAndResizer({ selectedImage, setSelectedImage 
           {/* <TouchableOpacity style={styles.button} onPress={takePicture}>
             <Text style={styles.btnText}>Use camera</Text>
           </TouchableOpacity> */}
-          <ButtonComp text={'Use camera'} onPress={takePicture}></ButtonComp>
+          <ButtonComp btnStyle={styles.btnText} text={'Use camera'} onPress={takePicture}></ButtonComp>
         </>
       )}
       {isLoadingImageAction && <ActivityIndicator size="large" color="#0000ff" />}
@@ -173,10 +174,11 @@ const styles = StyleSheet.create({
     // elevation: 2,
   },
   btnText: {
-    textAlign: 'center',
-    fontSize: 16,
-    color: '#F9F7F7',
-    fontWeight: '600',
+    width:responsiveWidth(30)
+    // textAlign: 'center',
+    // fontSize: 16,
+    // color: '#F9F7F7',
+    // fontWeight: '600',
   },
   previewImage: {
     width: 200,

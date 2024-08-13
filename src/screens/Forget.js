@@ -35,7 +35,7 @@ const Forget = () => {
         <CustomText style={styles.title}>Forget Password</CustomText>
         <View style={styles.body_container}>
         <TextInputComp placeholder='E-mail' onChangeText={setEmail} value={email}/>
-        <ButtonComp text={'Send'} onPress={sendMail} />
+        <ButtonComp text={'Send'} isLoading={isMailSend} onPress={sendMail} />
         </View>
     </View>
   )

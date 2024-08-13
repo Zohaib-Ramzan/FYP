@@ -6,8 +6,14 @@ import { NavigationContainer } from "@react-navigation/native";
 import Home from "../screens/Home";
 import Forget from "../screens/Forget";
 import { useFonts,Roboto_900Black, Roboto_400Regular } from "@expo-google-fonts/roboto";
-import Predictions from "../../Components/Predictions";
-
+import History from "../screens/History";
+import Block from "../../Components/Block";
+import Predictions from "../screens/Predictions";
+import Splash from "../screens/Splash";
+import Settings from "../screens/Settings";
+import EditProfile from "../screens/EditProfile";
+import PrivacyPolicy from "../screens/PrivacyPolicy";
+import About from "../screens/About";
 
 const Stack = createNativeStackNavigator();
 
@@ -26,14 +32,21 @@ const MainRouter = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Login"
+        initialRouteName="Splash"
         screenOptions={{ headerShown: false }}
       >
+        <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Screen name="Edit Profile" component={EditProfile} />
+        <Stack.Screen name="Privacy Policy" component={PrivacyPolicy} />
+        <Stack.Screen name="About" component={About} />
+        <Stack.Screen name="Settings" component={Settings} />
         <Stack.Screen name="Forget" component={Forget} />
         <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="History" component={History} />
         <Stack.Screen name="Prediction" component={Predictions}/>
+        <Stack.Screen name="Block" component={Block}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

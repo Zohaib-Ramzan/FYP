@@ -1,7 +1,6 @@
 import {
   Pressable,
   StyleSheet,
-  ActivityIndicator,
   View,
   StatusBar,
   SafeAreaView,
@@ -17,17 +16,36 @@ import {
 import TextInputComp from "../components/TextInputComp";
 import ButtonComp from "../components/ButtonComp";
 
-import { auth } from "../../config";
+import { auth, FIRESTORE_DB } from "../../config";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import CustomText from "../components/CustomText";
+import { useContext } from "react";
+import { AppContext } from "../hooks/Context";
+import { doc,getDoc } from "firebase/firestore";
 
 // Keep the splash screen visible while we fetch resources
 
 const Login = () => {
+  const {setUsers} = useContext(AppContext);
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLogined, setIsLogined] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      if (user) {
+        // User is signed in, navigate to Home screen
+        navigation.navigate('Home');
+      } else {
+        // No user is signed in, navigate to Login screen
+        navigation.navigate('Login');
+      }
+    });
+  
+    // Cleanup subscription on component unmount
+    return () => unsubscribe();
+  }, []);
 
   const SignInPress = async () => {
     if (email.includes("@") && password.length > 5) {
@@ -38,8 +56,24 @@ const Login = () => {
           email,
           password
         );
+        const user = userLogin.user;
+        // Now retrieve data form firestore
+        const userDocRef = doc(FIRESTORE_DB, 'users', user.uid);
+        const userDoc = await getDoc(userDocRef);
+
+        if(userDoc.exists()) {
+          const userData = userDoc.data();
+
+        // Now Create the userData context
+        setUsers({name:userData.name, email:userData.email, uid:user.uid})
         setIsLogined(false);
         navigation.navigate("Home");
+        setEmail('');
+        setPassword('');
+        } else {
+          Alert.alert("Error", "User data not found.");
+        }
+        
       } catch (error) {
         console.log(error);
         setIsLogined(false);

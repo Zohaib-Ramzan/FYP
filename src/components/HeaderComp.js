@@ -17,7 +17,7 @@ export default HeaderComp
 
 const styles = StyleSheet.create({
   container: {
-    margin: responsiveWidth(3),
+    margin: responsiveWidth(5),
     backgroundColor:'#FFF'
   }
 })

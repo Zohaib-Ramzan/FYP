@@ -2,10 +2,14 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import MainRouter from './src/navigation/MainRouter'
 
+import { AppProvider } from './src/hooks/Context'
+
 const App = () => {
   return (
     <View style={styles.container}>
-      <MainRouter />
+      <AppProvider>
+         <MainRouter />
+      </AppProvider>
     </View>
   )
 }

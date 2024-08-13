@@ -1,20 +1,26 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View , TouchableOpacity} from 'react-native'
 import React from 'react'
 import CustomText from '../src/components/CustomText'
-import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions'
+import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
+import { Ionicons } from "@expo/vector-icons";
 
-const Block = () => {
+const Block = ({dateComponent,type,confidence,onLongPress,showDeleteIcon,onDelete}) => {
   return (
-    <Pressable style={styles.blockContainer}>
-      <CustomText style={styles.title}>
-        {'Prediction on 12th Sep 2023'}
+    <Pressable style={[styles.blockContainer, showDeleteIcon && styles.overlay]} onLongPress={onLongPress}>
+      <View style={styles.dateContainer}>
+        {dateComponent}
+      </View>
+      <CustomText>
+        {`Type: ${type}`}
       </CustomText>
       <CustomText>
-        {'Type: Meningioma'}
+        {`Confidence: ${confidence}%`}
       </CustomText>
-      <CustomText>
-        {'Confidence: 89%'}
-      </CustomText>
+      {showDeleteIcon && (
+        <TouchableOpacity onPress={onDelete} style={styles.iconContainer}>
+          <Ionicons name='trash' size={24} color={'red'}/>
+        </TouchableOpacity>
+      ) }
     </Pressable>
   )
 }
@@ -32,11 +38,22 @@ const styles = StyleSheet.create({
         paddingVertical: responsiveHeight(2),
         paddingHorizontal: responsiveWidth(2),
         justifyContent:'space-evenly',
-        
     },
     title: {
         fontSize:responsiveFontSize(2.7),
         fontWeight:'500'
-    }
+    },
+    dateContainer:{
+
+    },
+    overlay: {
+      backgroundColor: "rgba(0, 0, 0, 0.1)",
+    },
+    iconContainer: {
+      position: 'absolute',
+      top: 5,
+      right: 5,
+      backgroundColor: 'transparent',
+    },
 
 })
