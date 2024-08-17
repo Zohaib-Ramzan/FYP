@@ -14,7 +14,7 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from "react-native-responsive-dimensions";
-import Block from "../../Components/Block";
+import Block from "../components/Block";
 import ButtonComp from "../components/ButtonComp";
 import { useNavigation } from "@react-navigation/native";
 
@@ -22,7 +22,7 @@ import { useContext } from "react";
 import { AppContext } from "../hooks/Context";
 import { collection, getDocs, query, where, deleteDoc, doc, onSnapshot, orderBy } from "firebase/firestore";
 import { FIRESTORE_DB } from "../../config";
-import DateFormat from "../../Components/DateFormat";
+import DateFormat from "../components/DateFormat";
 import CustomText from "../components/CustomText";
 
 const History = () => {

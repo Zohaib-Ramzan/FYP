@@ -3,7 +3,7 @@ import Slider from '@react-native-community/slider';
 import { StyleSheet, Text, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
-import ButtonComp from '../src/components/ButtonComp';
+import ButtonComp from './ButtonComp';
 import { responsiveWidth } from 'react-native-responsive-dimensions';
 
 //This component is used to select an image from the device's library or camera

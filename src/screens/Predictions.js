@@ -4,7 +4,6 @@ import { StyleSheet, Text, TouchableOpacity, ActivityIndicator, ScrollView, View
 import React, { useContext, useEffect, useState } from 'react';
 import * as jpeg from 'jpeg-js';
 import * as WebBrowser from 'expo-web-browser';
-import ImagePickerAndResizer from '../../Components/ImagePickerAndResizer';
 import CustomText from '../components/CustomText';
 import HeaderComp from '../components/HeaderComp';
 import { useNavigation } from '@react-navigation/native';
@@ -12,6 +11,7 @@ import ButtonComp from '../components/ButtonComp';
 import { addDoc, collection } from "firebase/firestore";
 import { FIRESTORE_DB } from '../../config';
 import { AppContext } from '../hooks/Context';
+import ImagePickerAndResizer from '../components/ImagePickerAndResizer';
 
 export default function Predictions() {
     const {users} = useContext(AppContext);

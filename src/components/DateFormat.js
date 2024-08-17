@@ -1,5 +1,5 @@
 import React from "react";
-import CustomText from "../src/components/CustomText";
+import CustomText from "./CustomText";
 import { StyleSheet } from "react-native";
 import { responsiveFontSize } from "react-native-responsive-dimensions";
 const DateFormat = ({ timestamp }) => {

@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View , TouchableOpacity} from 'react-native'
 import React from 'react'
-import CustomText from '../src/components/CustomText'
+import CustomText from './CustomText'
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 import { Ionicons } from "@expo/vector-icons";
 

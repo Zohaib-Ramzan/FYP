@@ -7,7 +7,7 @@ import Home from "../screens/Home";
 import Forget from "../screens/Forget";
 import { useFonts,Roboto_900Black, Roboto_400Regular } from "@expo-google-fonts/roboto";
 import History from "../screens/History";
-import Block from "../../Components/Block";
+import Block from "../components/Block";
 import Predictions from "../screens/Predictions";
 import Splash from "../screens/Splash";
 import Settings from "../screens/Settings";
