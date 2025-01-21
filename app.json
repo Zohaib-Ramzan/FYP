@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "TensorNative",
+    "name": "BrainTumorPredictor",
     "slug": "tensornative",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/BTPLogo_zoom.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -17,7 +17,9 @@
         {
           "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
         }
-      ]
+      ],
+      "expo-build-properties",
+      "expo-font"
     ],
     "assetBundlePatterns": [
       "**/*"
@@ -27,19 +29,24 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/BTPLogo_zoom.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
       ],
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./google-services.json",
+      "package": "com.btd.app"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/BTPLogo_zoom.png"
     },
-    "extra": {},
+    "extra": {
+      "eas": {
+        "projectId": "7a044d6d-8a7d-41d0-826f-5cd4674926d1"
+      }
+    },
     "runtimeVersion": {
       "policy": "appVersion"
     },

@@ -17,7 +17,7 @@ useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, async (user) => {
     if (user) {
       // Fetch user details from Firestore
-      const userDocRef = doc(FIRESTORE_DB, 'users', user.uid);
+      const userDocRef = doc(FIRESTORE_DB, 'BTPUsers', user.uid);
       const userDoc = await getDoc(userDocRef);
 
       if (userDoc.exists()) {

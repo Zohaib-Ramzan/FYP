@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     separator: {
         height: 1,
         width: '90%',
-        backgroundColor: '#ccc',
+        backgroundColor: '#6200EE', // previous color was #ccc
         alignSelf: 'center',
       }
 })

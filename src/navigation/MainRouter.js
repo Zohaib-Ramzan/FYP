@@ -3,10 +3,8 @@ import SignUp from "../screens/SignUp";
 import Login from "../screens/Login";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
-import Home from "../screens/Home";
 import Forget from "../screens/Forget";
 import { useFonts,Roboto_900Black, Roboto_400Regular } from "@expo-google-fonts/roboto";
-import History from "../screens/History";
 import Block from "../components/Block";
 import Predictions from "../screens/Predictions";
 import Splash from "../screens/Splash";
@@ -14,6 +12,8 @@ import Settings from "../screens/Settings";
 import EditProfile from "../screens/EditProfile";
 import PrivacyPolicy from "../screens/PrivacyPolicy";
 import About from "../screens/About";
+import MainScreen from "../screens/MainScreen";
+import Home from "../screens/Home";
 
 const Stack = createNativeStackNavigator();
 
@@ -43,8 +43,8 @@ const MainRouter = () => {
         <Stack.Screen name="About" component={About} />
         <Stack.Screen name="Settings" component={Settings} />
         <Stack.Screen name="Forget" component={Forget} />
+        <Stack.Screen name="MainScreen" component={MainScreen} />
         <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="History" component={History} />
         <Stack.Screen name="Prediction" component={Predictions}/>
         <Stack.Screen name="Block" component={Block}/>
       </Stack.Navigator>

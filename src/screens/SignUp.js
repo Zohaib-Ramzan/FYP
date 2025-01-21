@@ -24,6 +24,8 @@ import CustomText from "../components/CustomText";
 import { useContext } from "react";
 import { AppContext } from "../hooks/Context";
 import { doc,setDoc } from "firebase/firestore";
+import { createdAt } from "expo-updates";
+import { Image } from "react-native";
 
 const SignUp = () => {
   const {setUsers} = useContext(AppContext);
@@ -34,49 +36,57 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isSignup, setIsSignup] = useState(false);
 
-  const SignUpPress = async () => {
-    if (
-      password === confirmPassword &&
-      email.includes("@") &&
-      password.length > 5
-    ) {
-      setIsSignup(true)
+ const SignUpPress = async () => {
+    if (password === confirmPassword && email.includes("@") && password.length > 5) {
+      setIsSignup(true);
       try {
         await createUser(); 
-        navigation.navigate("Home"); 
+        navigation.navigate("Home");
       } catch (error) {
-        Alert.alert("Error", "Failed to create account");
       } finally {
-        setIsSignup(false); // Stop loading after process completes
+        setIsSignup(false); 
       }
     } else {
-      Alert.alert("Kindly check your credentials!");
+      // Validation failed
+      Alert.alert("Error", "Kindly check your credentials! Passwords must match, and the email should be valid.");
     }
   };
 
   // Creating User Profile
   const createUser = async () => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      await setDoc(doc(FIRESTORE_DB, 'users', user.uid), {
+      
+      // Save User details to Firestore
+      await setDoc(doc(FIRESTORE_DB, 'BTPUsers', user.uid), {
         name: name,
         email: user.email,
         createdAt: new Date(),
       });
-      setUsers({name: name, email: email, uid:user.uid});
-      // Handle successful signup
+      setUsers({ name: name, email: email, uid: user.uid });
     } catch (error) {
       const errorCode = error.code;
-      const errorMessage = error.message;
-      // Handle error
-      throw new Error(errorMessage);
+      
+      // Handle different error codes with alerts
+      switch (errorCode) {
+        case 'auth/email-already-in-use':
+          Alert.alert("Error", "This email address is already in use.");
+          break;
+        case 'auth/invalid-email':
+          Alert.alert("Error", "The email address is not valid.");
+          break;
+        case 'auth/network-request-failed':
+          Alert.alert("Error", "Network request failed. Please check your connection.");
+          break;
+        default:
+          Alert.alert("Error", "Something went wrong. Please try again.");
+      }
+
+      throw error;
     }
   };
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -84,7 +94,9 @@ const SignUp = () => {
       <HeaderComp onPress={() => navigation.goBack()} />
       
       <View style={styles.body_container}>
-      <CustomText style={styles.title}>Brain Tumour Predictor</CustomText>
+      <View>
+          <Image source={require('../../assets/BTPLogo_zoom.png')} style={styles.logoStyle} />
+        </View>
         <CustomText style={styles.txtStyle}>{'Username'}</CustomText>
         <TextInputComp
           placeholder="Enter Your Name"
@@ -146,5 +158,12 @@ const styles = StyleSheet.create({
   },
   txtStyle: {
     marginLeft: responsiveWidth(2)
+  },
+  logoStyle: {
+    height:responsiveHeight(20),
+    width:responsiveWidth(40),
+    resizeMode:'contain',
+    alignSelf: 'center',
+    marginBottom: responsiveHeight(5)
   }
 });

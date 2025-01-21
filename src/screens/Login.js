@@ -5,9 +5,11 @@ import {
   StatusBar,
   SafeAreaView,
   Alert,
+  Image,
+  BackHandler,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -23,8 +25,6 @@ import { useContext } from "react";
 import { AppContext } from "../hooks/Context";
 import { doc,getDoc } from "firebase/firestore";
 
-// Keep the splash screen visible while we fetch resources
-
 const Login = () => {
   const {setUsers} = useContext(AppContext);
   const navigation = useNavigation();
@@ -35,15 +35,12 @@ const Login = () => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
-        // User is signed in, navigate to Home screen
-        navigation.navigate('Home');
+        navigation.navigate('MainScreen');
       } else {
-        // No user is signed in, navigate to Login screen
         navigation.navigate('Login');
       }
     });
   
-    // Cleanup subscription on component unmount
     return () => unsubscribe();
   }, []);
 
@@ -57,17 +54,17 @@ const Login = () => {
           password
         );
         const user = userLogin.user;
-        // Now retrieve data form firestore
-        const userDocRef = doc(FIRESTORE_DB, 'users', user.uid);
+      
+        const userDocRef = doc(FIRESTORE_DB, 'BTPUsers', user.uid);
         const userDoc = await getDoc(userDocRef);
 
         if(userDoc.exists()) {
           const userData = userDoc.data();
 
-        // Now Create the userData context
+      
         setUsers({name:userData.name, email:userData.email, uid:user.uid})
         setIsLogined(false);
-        navigation.navigate("Home");
+        navigation.navigate("MainScreen");
         setEmail('');
         setPassword('');
         } else {
@@ -75,20 +72,66 @@ const Login = () => {
         }
         
       } catch (error) {
-        console.log(error);
-        setIsLogined(false);
-        Alert.alert(error.message);
+        const errorCode = error.code;
+      let errorMsg = "Something went wrong. Please try again.";
+
+      switch (errorCode) {
+        case "auth/invalid-email":
+        case "auth/wrong-password":
+        case "auth/invalid-credential":
+          errorMsg = "Invalid email or password.";
+          break;
+          case "auth/network-request-failed":
+            errorMsg = "Network request failed. Please check your connection.";
+            break;
+        default:
+          errorMsg = error.message;
       }
+
+      Alert.alert("Error", errorMsg);
+    } finally {
+      setIsLogined(false);
+    }
     } else {
       Alert.alert("Kindly check your credentials!");
     }
   };
+
+  
+   useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        Alert.alert(
+          "Hold on!",
+          "Are you sure you want to exit the app?",
+          [
+            {
+              text: "Cancel",
+              onPress: () => null,
+              style: "cancel",
+            },
+            { text: "YES", onPress: () => BackHandler.exitApp() },
+          ]
+        );
+        return true;
+      };
+
+      BackHandler.addEventListener("hardwareBackPress", onBackPress);
+
+      return () =>
+        BackHandler.removeEventListener("hardwareBackPress", onBackPress);
+    }, [])
+  );
+
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#6200EE" barStyle="dark-content" />
 
       <View style={styles.body_container}>
+        <View>
+          <Image source={require('../../assets/BTPLogo_zoom.png')} style={styles.logoStyle} />
+        </View>
         <View style={styles.headingContainer}>
           <CustomText style={styles.title}>Welcome Back</CustomText>
           <CustomText style={styles.subTitle}>
@@ -151,7 +194,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: responsiveFontSize(3.3),
     letterSpacing: 0.32,
-    color: "#030303",
+    color: "#6200EE",
   },
   forget_lbl: {
     textAlign: "center",
@@ -173,7 +216,7 @@ const styles = StyleSheet.create({
   subTitle: {
     fontSize: responsiveFontSize(1.9),
     letterSpacing: 0.2,
-    color: "#030303",
+    color: "#6200EE",
   },
   headingContainer: {
     paddingBottom: responsiveHeight(5),
@@ -185,5 +228,12 @@ const styles = StyleSheet.create({
   },
   btnStyle: {
     alignSelf:'center'
+  },
+  logoStyle: {
+    height:responsiveHeight(20),
+    width:responsiveWidth(40),
+    resizeMode:'contain',
+    alignSelf: 'center',
+    marginBottom: responsiveHeight(5)
   }
 });
