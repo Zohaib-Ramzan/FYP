@@ -18,3 +18,11 @@ Note: please delete node_modules folder before running command
 
 ### Starting the Project
 - yarn start
+
+<p align="center">
+  <img src="/assets/Login.jpg" width="200">
+  <img src="/assets/Home.jpg" width="200">
+  <img src="/assets/Predictions.jpg" width="200">
+  <img src="/assets/Resources.jpg" width="200">
+  <img src="/assets/Signup.jpg" width="200">
+</p>
